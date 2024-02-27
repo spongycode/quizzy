@@ -1,5 +1,7 @@
 package com.spongycode.quizzy.data.repository
 
+import com.spongycode.quizzy.data.local.QuizDao
+import com.spongycode.quizzy.data.local.entity.QuizEntity
 import com.spongycode.quizzy.data.remote.QuizApi
 import com.spongycode.quizzy.domain.model.Category
 import com.spongycode.quizzy.domain.model.Question
@@ -9,9 +11,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class QuizRepositoryImpl(
-    private val api: QuizApi
+class QuizRepositoryImpl @Inject constructor(
+    private val api: QuizApi,
+    private val dao: QuizDao
 ) : QuizRepository {
     override fun getQuestions(
         amount: Int,
@@ -26,7 +30,7 @@ class QuizRepositoryImpl(
                 val questions = api.getQuestions(
                     amount = amount.toString(),
                     category = if (category != 0) category.toString() else "",
-                    difficulty = if (difficulty != "any") difficulty else "",
+                    difficulty = if (difficulty != "mix") difficulty else "",
                     type = type
                 )
                     .toListQuestions()
@@ -82,5 +86,17 @@ class QuizRepositoryImpl(
             }
         } catch (_: Exception) {
         }
+    }
+
+    override suspend fun insertQuiz(quiz: QuizEntity) {
+        dao.insertQuiz(quiz = quiz)
+    }
+
+    override suspend fun getQuiz(): List<QuizEntity>? {
+        return dao.getQuiz()
+    }
+
+    override suspend fun deleteOldQuizRecords() {
+        dao.deleteOldQuizRecords()
     }
 }

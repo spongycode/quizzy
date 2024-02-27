@@ -1,5 +1,6 @@
-package com.spongycode.quizzy.screens.play
+package com.spongycode.quizzy.screens.play.personaldetails
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,11 +29,15 @@ import com.spongycode.quizzy.utils.Constants
 @Composable
 fun PersonalDetailsScreen(
     navController: NavHostController,
-    viewModel: PlayViewModel = hiltViewModel()
+    viewModel: PersonalDetailsViewModel = hiltViewModel()
 ) {
     val configuration = LocalConfiguration.current
     val height = configuration.screenHeightDp
     val width = configuration.screenWidthDp
+    val name = viewModel.name.value
+    val registrationNumber = viewModel.registrationNumber.value
+    val grade = viewModel.grade.value
+    Log.d("MAINVIEWMIDEL", "init personal data")
 
     Scaffold(topBar = {
         Topbar(
@@ -45,10 +50,11 @@ fun PersonalDetailsScreen(
             modifier = Modifier.padding(it.calculateTopPadding()),
             height = height,
             width = width,
-            onNext = {
-                viewModel.getCategories()
-                navController.navigate("categoryPick")
-            }
+            name = name,
+            registrationNumber = registrationNumber,
+            grade = grade,
+            onNext = { navController.navigate("categoryPick") },
+            onEvent = { event -> viewModel.onEvent(event) },
         )
     }
 }
@@ -59,12 +65,13 @@ fun PersonalDetailsScreenContent(
     modifier: Modifier = Modifier,
     height: Int = 800,
     width: Int = 400,
-    viewModel: PlayViewModel = hiltViewModel(),
-    onNext: () -> Unit = {}
+    name: String = "",
+    registrationNumber: String = "",
+    grade: String = "",
+    onNext: () -> Unit = {},
+    onEvent: (PersonalDetailsEvent) -> Unit = {}
 ) {
-    val name = viewModel.name.value
-    val registrationNumber = viewModel.registrationNumber.value
-    val grade = viewModel.grade.value
+
 
     Column(
         modifier = Modifier
@@ -80,7 +87,7 @@ fun PersonalDetailsScreenContent(
             shape = RoundedCornerShape(Constants.CORNER_RADIUS_PERCENTAGE),
             singleLine = true,
             keyboardType = KeyboardType.Text,
-            onValueChange = { viewModel.onEvent(PlayEvent.EnteredName(it)) }
+            onValueChange = { onEvent(PersonalDetailsEvent.EnteredName(it)) }
         )
         CustomTextField(
             text = registrationNumber,
@@ -89,7 +96,7 @@ fun PersonalDetailsScreenContent(
             shape = RoundedCornerShape(Constants.CORNER_RADIUS_PERCENTAGE),
             singleLine = true,
             keyboardType = KeyboardType.Text,
-            onValueChange = { viewModel.onEvent(PlayEvent.EnteredRegistrationNumber(it)) }
+            onValueChange = { onEvent(PersonalDetailsEvent.EnteredRegistrationNumber(it)) }
         )
         CustomTextField(
             text = grade,
@@ -98,7 +105,7 @@ fun PersonalDetailsScreenContent(
             shape = RoundedCornerShape(Constants.CORNER_RADIUS_PERCENTAGE),
             singleLine = true,
             keyboardType = KeyboardType.Text,
-            onValueChange = { viewModel.onEvent(PlayEvent.EnteredGrade(it)) }
+            onValueChange = { onEvent(PersonalDetailsEvent.EnteredGrade(it)) }
         )
         CustomButton(
             onClick = { onNext() },

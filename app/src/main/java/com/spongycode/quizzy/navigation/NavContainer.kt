@@ -5,9 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.spongycode.quizzy.screens.history.HistoryScreen
 import com.spongycode.quizzy.screens.home.HomeScreen
-import com.spongycode.quizzy.screens.play.CategoryPickScreen
-import com.spongycode.quizzy.screens.play.PersonalDetailsScreen
+import com.spongycode.quizzy.screens.play.categorypick.CategoryPickScreen
+import com.spongycode.quizzy.screens.play.personaldetails.PersonalDetailsScreen
+import com.spongycode.quizzy.screens.play.quizplay.QuizPlayScreen
 
 @Composable
 fun NavContainer(startDestination: String) {
@@ -21,6 +23,12 @@ fun NavContainer(startDestination: String) {
         }
         composable(route = "categoryPick") {
             CategoryPickScreen(navController = navController)
+        }
+        composable(route = "quizPlay") {
+            QuizPlayScreen(navController = navController)
+        }
+        composable(route = "history") {
+            HistoryScreen(navController = navController)
         }
     }
 }

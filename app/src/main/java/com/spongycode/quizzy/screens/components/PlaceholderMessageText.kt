@@ -15,13 +15,16 @@ import androidx.compose.ui.unit.sp
 import com.spongycode.quizzy.utils.Fonts
 
 @Composable
-fun PlaceholderMessageText(text: String) {
+fun PlaceholderMessageText(
+    text: String,
+    content: @Composable () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Transparent),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.SpaceAround
     ) {
         Text(
             text = text, fontSize = 20.sp,
@@ -29,5 +32,6 @@ fun PlaceholderMessageText(text: String) {
             fontWeight = FontWeight.W600,
             fontFamily = Fonts.poppinsFamily
         )
+        content()
     }
 }

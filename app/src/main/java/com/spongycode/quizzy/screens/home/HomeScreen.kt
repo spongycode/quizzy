@@ -66,6 +66,6 @@ fun HomeScreenContent(
             contentDescription = "logo"
         )
         CustomButton(onClick = { navController?.navigate("personalDetails") }, text = "Play")
-        CustomButton(onClick = { /*TODO*/ }, text = "History")
+        CustomButton(onClick = { navController?.navigate("history") }, text = "History")
     }
 }

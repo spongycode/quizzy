@@ -1,5 +1,6 @@
 package com.spongycode.quizzy.data.remote.dto
 
+import com.spongycode.quizzy.domain.model.Option
 import com.spongycode.quizzy.domain.model.Question
 
 data class QuizDto(
@@ -7,13 +8,24 @@ data class QuizDto(
     val results: List<QuizQuestion>
 ) {
     fun toListQuestions(): List<Question> = results.map {
+        var idx = 0
+        val options = (it.incorrect_answers + it.correct_answer).shuffled().map { value ->
+            Option(id = idx++, value = value)
+        }
+        var correctId = 0
+        for (option in options) {
+            if (option.value == it.correct_answer) {
+                correctId = option.id
+                break
+            }
+        }
         Question(
             type = it.type,
             difficulty = it.difficulty,
             category = it.category,
-            question = it.question,
-            correctAnswer = it.correct_answer,
-            incorrectAnswers = it.incorrect_answers
+            title = it.question,
+            options = options,
+            correctId = correctId
         )
     }
 }

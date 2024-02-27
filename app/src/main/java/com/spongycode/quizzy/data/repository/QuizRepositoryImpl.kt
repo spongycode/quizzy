@@ -23,7 +23,13 @@ class QuizRepositoryImpl(
         try {
             emit(Resource.Loading(data = null))
             try {
-                val questions = api.getQuestions().toListQuestions()
+                val questions = api.getQuestions(
+                    amount = amount.toString(),
+                    category = if (category != 0) category.toString() else "",
+                    difficulty = if (difficulty != "any") difficulty else "",
+                    type = type
+                )
+                    .toListQuestions()
                 emit(Resource.Success(questions))
             } catch (e: HttpException) {
                 emit(

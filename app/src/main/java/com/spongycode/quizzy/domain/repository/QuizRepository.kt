@@ -10,7 +10,7 @@ interface QuizRepository {
         amount: Int,
         category: Int,
         difficulty: String,
-        type: String
+        type: String = "multiple"
     ): Flow<Resource<List<Question>>>
 
     fun getCategories(): Flow<Resource<List<Category>>>

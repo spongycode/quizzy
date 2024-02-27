@@ -8,9 +8,9 @@ import retrofit2.http.Query
 interface QuizApi {
     @GET("api.php")
     suspend fun getQuestions(
-        @Query("amount") amount: Int = 10,
-        @Query("category") category: Int = 9,
-        @Query("difficulty") difficulty: String = "easy",
+        @Query("amount") amount: String = "20",
+        @Query("category") category: String = "",
+        @Query("difficulty") difficulty: String = "",
         @Query("type") type: String = "multiple",
     ): QuizDto
 

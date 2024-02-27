@@ -65,7 +65,7 @@ fun HomeScreenContent(
             painter = painterResource(id = R.drawable.ic_launcher_background),
             contentDescription = "logo"
         )
-        CustomButton(onClick = { navController?.navigate("personalDetails") }, displayText = "Play")
-        CustomButton(onClick = { /*TODO*/ }, displayText = "History")
+        CustomButton(onClick = { navController?.navigate("personalDetails") }, text = "Play")
+        CustomButton(onClick = { /*TODO*/ }, text = "History")
     }
 }

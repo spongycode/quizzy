@@ -21,7 +21,7 @@ fun CustomButton(
     onClick: () -> Unit = {},
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = MaterialTheme.colorScheme.primary,
-    displayText: String = "Hello"
+    text: String = "Hello"
 ) {
     Button(
         onClick = {
@@ -39,7 +39,7 @@ fun CustomButton(
         Text(
             color = contentColor,
             modifier = Modifier.padding(8.dp),
-            text = displayText,
+            text = text,
             fontFamily = Fonts.poppinsFamily,
             fontWeight = FontWeight.W600,
             fontSize = 15.sp

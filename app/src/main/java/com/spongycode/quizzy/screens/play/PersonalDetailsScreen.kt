@@ -28,6 +28,7 @@ import com.spongycode.quizzy.utils.Constants
 @Composable
 fun PersonalDetailsScreen(
     navController: NavHostController,
+    viewModel: PlayViewModel = hiltViewModel()
 ) {
     val configuration = LocalConfiguration.current
     val height = configuration.screenHeightDp
@@ -44,7 +45,10 @@ fun PersonalDetailsScreen(
             modifier = Modifier.padding(it.calculateTopPadding()),
             height = height,
             width = width,
-            onNext = { navController.navigate("categoryPick") }
+            onNext = {
+                viewModel.getCategories()
+                navController.navigate("categoryPick")
+            }
         )
     }
 }
@@ -98,7 +102,7 @@ fun PersonalDetailsScreenContent(
         )
         CustomButton(
             onClick = { onNext() },
-            displayText = "Next"
+            text = "Next"
         )
     }
 }

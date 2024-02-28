@@ -1,5 +1,9 @@
 package com.spongycode.quizzy.screens.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -11,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,24 +32,35 @@ fun Topbar(
     CenterAlignedTopAppBar(
         modifier = modifier,
         title = {
-            Text(
-                color = MaterialTheme.colorScheme.primary,
-                text = title,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                fontFamily = Fonts.poppinsFamily
-            )
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    color = MaterialTheme.colorScheme.primary,
+                    text = title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = Fonts.poppinsFamily
+                )
+            }
         },
         navigationIcon = {
-            IconButton(
-                onClick = onBackPressed
+            Row(
+                Modifier.fillMaxHeight(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = "Back",
-                    modifier = Modifier.size(26.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
+                IconButton(
+                    onClick = onBackPressed
+                ) {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        modifier = Modifier.size(26.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

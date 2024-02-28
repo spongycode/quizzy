@@ -21,11 +21,33 @@ fun NavContainer(startDestination: String) {
         composable(route = "personalDetails") {
             PersonalDetailsScreen(navController = navController)
         }
-        composable(route = "categoryPick") {
-            CategoryPickScreen(navController = navController)
+        composable(route = "categoryPick/{name}/{registrationNumber}/{grade}") {
+            val name = it.arguments?.getString("name")
+            val registrationNumber = it.arguments?.getString("registrationNumber")
+            val grade = it.arguments?.getString("grade")
+            CategoryPickScreen(
+                name = name!!,
+                registrationNumber = registrationNumber!!,
+                grade = grade!!,
+                navController = navController
+            )
         }
-        composable(route = "quizPlay") {
-            QuizPlayScreen(navController = navController)
+        composable(route = "quizPlay/{name}/{registrationNumber}/{grade}/{amount}/{difficulty}/{categoryId}") {
+            val name = it.arguments?.getString("name")
+            val registrationNumber = it.arguments?.getString("registrationNumber")
+            val grade = it.arguments?.getString("grade")
+            val amount = it.arguments?.getString("amount")
+            val difficulty = it.arguments?.getString("difficulty")
+            val categoryId = it.arguments?.getString("categoryId")
+            QuizPlayScreen(
+                name = name!!,
+                registrationNumber = registrationNumber!!,
+                grade = grade!!,
+                amount = amount!!,
+                difficulty = difficulty!!,
+                categoryId = categoryId!!,
+                navController = navController
+            )
         }
         composable(route = "history") {
             HistoryScreen(navController = navController)

@@ -22,8 +22,11 @@ class CategoryPickViewModel @Inject constructor(
     private val _selectedAmount = mutableStateOf(Amount.FIFTEEN.value.toString())
     val selectedAmount: State<String> = _selectedAmount
 
-    private val _selectedCategory = mutableIntStateOf(0)
-    val selectedCategory: State<Int> = _selectedCategory
+    private val _selectedCategory = mutableStateOf("")
+    val selectedCategory: State<String> = _selectedCategory
+
+    private val _selectedCategoryId = mutableIntStateOf(0)
+    val selectedCategoryId: State<Int> = _selectedCategoryId
 
     private val _selectedDifficulty = mutableStateOf(Difficulty.MIX.name)
     val selectedDifficulty: State<String> = _selectedDifficulty
@@ -41,7 +44,11 @@ class CategoryPickViewModel @Inject constructor(
     fun onEvent(event: CategoryPickEvent) {
         when (event) {
             is CategoryPickEvent.TappedAmount -> _selectedAmount.value = event.value
-            is CategoryPickEvent.TappedCategory -> _selectedCategory.intValue = event.value.toInt()
+            is CategoryPickEvent.TappedCategory -> {
+                _selectedCategory.value = event.value.name
+                _selectedCategoryId.intValue = event.value.id
+            }
+
             is CategoryPickEvent.TappedDifficulty -> _selectedDifficulty.value = event.value
         }
     }

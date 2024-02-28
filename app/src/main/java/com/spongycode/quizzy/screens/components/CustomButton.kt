@@ -2,6 +2,7 @@ package com.spongycode.quizzy.screens.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -21,7 +22,8 @@ fun CustomButton(
     onClick: () -> Unit = {},
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = MaterialTheme.colorScheme.primary,
-    text: String = "Hello"
+    text: String = "Hello",
+    width: Int = 100
 ) {
     Button(
         onClick = {
@@ -29,7 +31,7 @@ fun CustomButton(
         },
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
-            .fillMaxWidth()
+            .width(width.dp)
             .bounceClick(),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,

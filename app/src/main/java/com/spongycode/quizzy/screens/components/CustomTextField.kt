@@ -34,9 +34,7 @@ fun CustomTextField(
     enabled: Boolean = true
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier)
+        modifier = modifier.fillMaxWidth()
     ) {
         OutlinedTextField(
             value = text,

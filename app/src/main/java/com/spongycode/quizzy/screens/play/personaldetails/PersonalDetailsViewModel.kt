@@ -20,7 +20,7 @@ class PersonalDetailsViewModel @Inject constructor(
     fun onEvent(event: PersonalDetailsEvent) {
         when (event) {
             is PersonalDetailsEvent.EnteredGrade -> _grade.value = event.value
-            is PersonalDetailsEvent.EnteredName -> _name.value = name.value
+            is PersonalDetailsEvent.EnteredName -> _name.value = event.value
             is PersonalDetailsEvent.EnteredRegistrationNumber -> _registrationNumber.value =
                 event.value
         }

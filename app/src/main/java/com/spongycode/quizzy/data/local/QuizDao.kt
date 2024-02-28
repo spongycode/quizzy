@@ -11,7 +11,7 @@ interface QuizDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuiz(quiz: QuizEntity)
 
-    @Query("SELECT * FROM QuizEntity LIMIT 10")
+    @Query("SELECT * FROM QuizEntity ORDER BY id DESC LIMIT 10")
     suspend fun getQuiz(): List<QuizEntity>?
 
     @Query("DELETE FROM QuizEntity WHERE id NOT IN (SELECT id FROM QuizEntity ORDER BY id DESC LIMIT 10)")

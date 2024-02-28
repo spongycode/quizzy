@@ -2,11 +2,12 @@ package com.spongycode.quizzy.screens.play.quizplay
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,23 +25,37 @@ import androidx.navigation.NavHostController
 import com.spongycode.quizzy.domain.model.Question
 import com.spongycode.quizzy.screens.components.CustomButton
 import com.spongycode.quizzy.screens.components.PlaceholderMessageText
+import com.spongycode.quizzy.screens.components.TextBox
 import com.spongycode.quizzy.screens.play.quizplay.components.CircularTimer
 import com.spongycode.quizzy.screens.play.quizplay.components.OptionsArea
 import com.spongycode.quizzy.screens.play.quizplay.components.QuestionTitle
 import com.spongycode.quizzy.screens.play.quizplay.components.updateCircularTransitionData
-import com.spongycode.quizzy.ui.theme.OptionDarkGreen
+import com.spongycode.quizzy.ui.theme.DecentGreen
 import com.spongycode.quizzy.utils.Constants
 import com.spongycode.quizzy.utils.Fonts
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun QuizPlayScreen(
+    name: String = "John",
+    registrationNumber: String = "23XLTOP",
+    grade: String = "XII",
+    amount: String = "20",
+    categoryId: String = "10",
+    difficulty: String = "easy",
     navController: NavHostController,
     viewModel: QuizPlayViewModel = hiltViewModel()
 ) {
     val configuration = LocalConfiguration.current
     val height = configuration.screenHeightDp
     val width = configuration.screenWidthDp
+
+    viewModel.updateInfo(name = name, registrationNumber = registrationNumber, grade = grade)
+    viewModel.getQuestions(
+        amount = amount.toInt(),
+        categoryId = categoryId.toInt(),
+        difficulty = difficulty
+    )
     Column {
         if (viewModel.isQuizOver.value) {
             Column {
@@ -50,17 +65,9 @@ fun QuizPlayScreen(
                             popUpTo(0)
                         }
                     },
-                    quizOverState = viewModel.quizOverState.value
+                    quizOverState = viewModel.quizOverState.value,
+                    score = viewModel.score.intValue
                 )
-
-                Text(text = "Quiz over")
-                Button(onClick = {
-                    navController.navigate("home") {
-                        popUpTo(0)
-                    }
-                }) {
-                    Text(text = "go Home")
-                }
             }
 
         } else {
@@ -126,12 +133,13 @@ fun QuizPlayScreenContent(
 @Composable
 fun QuizOverScreenContent(
     quizOverState: QuizOverState,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    score: Int,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Red),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround
     ) {
@@ -159,11 +167,26 @@ fun QuizOverScreenContent(
                         PlaceholderMessageText(
                             text = "Quiz saved successfully!",
                             content = {
+                                Row(
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    TextBox(
+                                        text = "Score: ",
+                                        style = MaterialTheme.typography.headlineMedium,
+                                    )
+                                    TextBox(
+                                        text = score.toString(),
+                                        style = MaterialTheme.typography.headlineLarge,
+                                        weight = FontWeight.W600,
+                                    )
+                                }
                                 CustomButton(
                                     onClick = { onClick() },
-                                    containerColor = OptionDarkGreen,
+                                    containerColor = DecentGreen,
                                     contentColor = Color.White,
-                                    text = "HOME"
+                                    text = "HOME",
+                                    width = 400
                                 )
                             }
                         )
